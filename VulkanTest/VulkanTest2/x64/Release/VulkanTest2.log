@@ -1,0 +1,8 @@
+﻿  main.cpp
+  Generating code
+  3241 of 3281 functions (98.8%) were compiled, the rest were copied from previous compilation.
+    8 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  VulkanTest2.vcxproj -> E:\VulkanTest\x64\Release\VulkanTest2.exe
+  VulkanTest2.vcxproj -> E:\VulkanTest\x64\Release\VulkanTest2.pdb (Full PDB)
