@@ -23,7 +23,16 @@
     <None Include="..\..\..\..\Fall %2718\Foundations of Game Engine Design and Development\VulkanTest\VulkanTest2\shaders\Shader.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RenderPass.cpp" />
+    <ClCompile Include="SwapChain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="RenderPass.h" />
+    <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
