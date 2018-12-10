@@ -62,8 +62,8 @@ void Application::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtil
 
 Application::Application()
 {
-	swapChainClass = SwapChain();
-	renderPassClass = RenderPass();
+	//swapChainClass = SwapChain();
+	//renderPassClass = RenderPass();
 }
 
 Application::~Application()
