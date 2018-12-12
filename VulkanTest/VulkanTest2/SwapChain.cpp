@@ -13,16 +13,20 @@ SwapChain::~SwapChain()
 
 void SwapChain::update(GLFWwindow* window, VkSurfaceKHR surface, VkPhysicalDevice physicalDevice, VkDevice device)
 {
+	//load the swap chain setting supported
 	SwapChainSupportDetails swapChainSupport = querySwapChainSupport(surface, physicalDevice);
 
+	//select the surface format, presentation mode, and resolution(extent)
 	VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
 	VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
 	VkExtent2D extent = chooseSwapExtent(window, swapChainSupport.capabilities);
 
+	//load the number of images in the swap chain, checking if there aren't any images to load
 	uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
 	if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
 		imageCount = swapChainSupport.capabilities.maxImageCount;
 
+	//create and set the info for the swap chain
 	VkSwapchainCreateInfoKHR createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 	createInfo.surface = surface;
@@ -31,29 +35,39 @@ void SwapChain::update(GLFWwindow* window, VkSurfaceKHR surface, VkPhysicalDevic
 	createInfo.imageFormat = surfaceFormat.format;
 	createInfo.imageColorSpace = surfaceFormat.colorSpace;
 	createInfo.imageExtent = extent;
+	//use 1 unless you are planning on creating a stereoscopic 3D application
 	createInfo.imageArrayLayers = 1;
+	//defines how we plan on rendering the images, here we render them directly or additively
+	//for example, if it is used for post-processing, you would use a different bit field
 	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-
+	//sets the queue families
 	QueueFamilyIndices indices = findQueueFamilies(surface, physicalDevice);
 	uint32_t queueFamilyIndices[] = { indices.graphicsFamily.value(), indices.presentFamily.value() };
 
 	if (indices.graphicsFamily != indices.presentFamily) {
+		//the image can be used across multiple queue families
 		createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+		//sets the index of queue families and queue families being used
 		createInfo.queueFamilyIndexCount = 2;
 		createInfo.pQueueFamilyIndices = queueFamilyIndices;
 	}
 	else {
+		//the image can be used by one queue family at a time
 		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		createInfo.queueFamilyIndexCount = 0;
 		createInfo.pQueueFamilyIndices = nullptr;
 	}
-
+	//sets the supoprt for different transforms on images
 	createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
+	//sets how the surface blends with the window
 	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	//sets presentation mode
 	createInfo.presentMode = presentMode;
 	createInfo.clipped = VK_TRUE;
+	//checks to see if swap chain is obsolete for the app, (i.e. resizing the app window)
 	createInfo.oldSwapchain = VK_NULL_HANDLE;
 
+	//creates swap chain using info above
 	if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS)
 		throw std::runtime_error("failed to create swap chain!");
 
@@ -91,7 +105,7 @@ QueueFamilyIndices SwapChain::findQueueFamilies(VkSurfaceKHR surface, VkPhysical
 		&queueFamilyCount, queueFamilies.data());
 
 	//loops through the queue families and checks to see if
-	//any of them support VK_QUEUE_GRAPHICS_BIT
+	//any of them support VK_QUEUE_GRAPHICS_BIT or presenting
 	int i = 0;
 	for (const auto& queueFamily : queueFamilies)
 	{

@@ -28,6 +28,7 @@ namespace std {
 	};
 }
 
+//descriptor used to load objs
 struct UniformBufferObject
 {
 	glm::mat4 model;
@@ -47,7 +48,7 @@ private:
 	//GLFW window used to display application
 	GLFWwindow* window;
 
-	//Instance of Vulkan
+	//Instance of Vulkan, connection between the application and Vulkan
 	VkInstance instance;
 	//callback to show debug messages
 	VkDebugUtilsMessengerEXT callback;
@@ -220,6 +221,8 @@ private:
 	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
 	//Callback function, or function the displays diagnostic messages
+	//Takes in the level of severity, type of message, a struct of the details of the message,
+	//and any data you would like to pass through
 	static VKAPI_ATTR VkBool32 VKAPI_CALL Application::debugCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 		VkDebugUtilsMessageTypeFlagsEXT messageType,

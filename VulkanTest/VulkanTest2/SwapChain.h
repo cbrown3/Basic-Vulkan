@@ -9,9 +9,11 @@
 //to a queue, which only allows a specific subset of commands
 struct QueueFamilyIndices
 {
+	//checks if graphics and present commands can be done
 	std::optional<uint32_t> graphicsFamily;
 	std::optional<uint32_t> presentFamily;
 
+	//is true if the GPU can support both queue families
 	bool isComplete()
 	{
 		return graphicsFamily.has_value() && presentFamily.has_value();
@@ -21,8 +23,11 @@ struct QueueFamilyIndices
 //used to check if the swapchain support is good enough
 struct SwapChainSupportDetails
 {
+	//the min/max num of images in swap chain, min/max width and height of images
 	VkSurfaceCapabilitiesKHR capabilities;
+	//surface formats i.e. pixel format, color space
 	std::vector<VkSurfaceFormatKHR> formats;
+	//available presentation modes
 	std::vector<VkPresentModeKHR> presentModes;
 };
 
@@ -43,17 +48,6 @@ public:
 
 
 private:
-	//GLFW window used to display application
-	/*GLFWwindow* window;
-	//Instance of Vulkan
-	VkInstance instance;
-	//the surface that will go over the window system in whatever platform is being used
-	VkSurfaceKHR surface;
-	//Graphics card we'll be using
-	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-	//Logical device being used
-	VkDevice device;*/
-
 	//Swap Chain members
 	VkSwapchainKHR swapChain;
 	std::vector<VkImage> swapChainImages;

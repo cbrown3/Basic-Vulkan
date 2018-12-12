@@ -7,6 +7,9 @@ struct Vertex
 	glm::vec3 color;
 	glm::vec2 texCoord;
 
+	//Describes at what rate to load data from memory thoughout the vertices,
+	//specifices the number of bytes between data entries and whether to move
+	//to the next data entry after eahc vertex or after each instance
 	static VkVertexInputBindingDescription getBindingDescription()
 	{
 		VkVertexInputBindingDescription bindingDescription = {};
@@ -17,6 +20,8 @@ struct Vertex
 		return bindingDescription;
 	}
 
+	//Describes how to extract a vertex attribute fromo a chunk of vertex data
+	//originating from a binding description
 	static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions()
 	{
 		std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions = {};
@@ -38,6 +43,7 @@ struct Vertex
 		return attributeDescriptions;
 	}
 
+	//operator to make Verticies use equals
 	bool operator==(const Vertex& other) const {
 		return pos == other.pos && color == other.color && texCoord == other.texCoord;
 	}
